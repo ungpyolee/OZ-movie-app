@@ -1,21 +1,31 @@
 import './App.css';
-import movie from './data/movieListData.json'
 import Layout from './layout/Layout'
 import { Routes, Route } from 'react-router-dom'
 import MainPage from './pages/MainPage'
+import DetailPage from './pages/DetailPage'
+import movieList from './data/movieListData.json'
+import { useState, useEffect } from 'react'
 
-console.log(movie);
 
 function App() {
+  const [movies, setMovies] = useState([])
+
+  useEffect(() => {
+    const dummyMovies = movieList.results
+    setMovies(dummyMovies)
+  }, [])
 
   return (
     <>
-      <Routes>
-        <Route path='/' element={<Layout />}/>
-        <Route index element={<MainPage />}/>
-      </Routes>
+     <Routes>   
+        <Route path='/' element={<Layout />}>
+          <Route index element={<MainPage movies={movies} />} />
+          <Route path=':movieId' element={<DetailPage />} />
+        </Route>
+    </Routes>
     </>
   );
 }
 
 export default App;
+
