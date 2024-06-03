@@ -39,7 +39,7 @@ const MovieDetail = () => {
                     </div>
                 </MovieDetailWrap>
             ) : (
-                <div>영화를 찾을 수 없습니다.</div>
+                <div>영화를 찾을 수 없습니다!</div>
             )}
         </>
     )
