@@ -21,8 +21,7 @@ const MovieDetail = () => {
 
 
    
-    
-    // {.map((movieId) => (genre_ids)}
+
     return (
         <>
             {movie ? (
@@ -31,7 +30,11 @@ const MovieDetail = () => {
                     <div style={{padding:'1rem'}}>
                     <MovieCardTitle>{movie.title}</MovieCardTitle>
                     <MovieCardAverage><FaStar style={{marginRight:'.25rem'}}/> {movie.vote_average}</MovieCardAverage>
-                    {/* <p>{movie.genre_ids}</p> */}
+                    <ul >
+                            {movie.genres.map((genre) => (
+                                <li key={genre.id}>{genre.name}</li>
+                            ))}
+                        </ul>
                     <p>{movie.overview}</p>
                     </div>
                 </MovieDetailWrap>
