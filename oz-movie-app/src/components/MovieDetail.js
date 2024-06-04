@@ -57,7 +57,6 @@ width:100%;
   text-align:center;
   padding-bottom:.5rem;
   display:flex;
-  
 `
 const MovieDetailWrap = styled.div`
     border:1px soild black;

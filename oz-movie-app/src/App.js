@@ -3,8 +3,10 @@ import Layout from './layout/Layout'
 import { Routes, Route } from 'react-router-dom'
 import MainPage from './pages/MainPage'
 import DetailPage from './pages/DetailPage'
+import LoginPage from './pages/LoginPage'
 import movieList from './data/movieListData.json'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useNavigate } from 'react'
+import SignupPage from './pages/SignupPage';
 
 
 function App() {
@@ -19,8 +21,10 @@ function App() {
     <>
      <Routes>   
         <Route path='/' element={<Layout />}>
-          <Route index element={<MainPage movies={movies} />} />
-          <Route path=':movieId' element={<DetailPage />} />
+          <Route index element={<LoginPage />}/>
+          <Route path='/main' element={<MainPage movies={movies} />} />
+          <Route path='/:movieId' element={<DetailPage />} />
+          <Route path='/signup' element={<SignupPage />} />
         </Route>
     </Routes>
     </>

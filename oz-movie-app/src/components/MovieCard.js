@@ -1,9 +1,24 @@
-import React from 'react'
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components'
 import { FaStar } from "react-icons/fa";
 import { Link } from 'react-router-dom' 
+import axios from '../api/axios';
+import requests from '../api/request'
 
-const MovieCard = ({ movies }) => {
+
+const MovieCard = () => {
+
+  const [movies, setMovies] = useState([]);
+
+  const fetchMovieData = useCallback(async () => {
+    const response = await axios.get(requests.fetchTopRated);
+    setMovies(response.data.results);
+  }, [])
+
+  useEffect(() => {
+    fetchMovieData();
+  }, [fetchMovieData])
+
 
   return (
     <>

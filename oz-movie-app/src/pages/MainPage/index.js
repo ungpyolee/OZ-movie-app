@@ -18,7 +18,7 @@ const Wrap = styled.div`
   display:flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding:0;
+  
   gap:10px;
 `
 export default MainPage
