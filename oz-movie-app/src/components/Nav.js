@@ -1,13 +1,33 @@
-import React, {useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import logo from '../logo.png'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { app } from '../firebase'
 
 
 const Nav = () => {
-
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState('')
+  const { pathname } = useLocation()
+
+  const auth = getAuth(app);
+
+  
+
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (user && pathname === '/') {
+  //       navigate('/main')
+  //       // ...
+  //     } else if(!user) {
+  //       // User is signed out
+  //       // ...
+  //       navigate('/')
+  //     }
+  //   });
+  // }, [auth, navigate, pathname])
+ 
   // search event
   const handleChange = (e) => {
     setSearchValue(e.target.value);
@@ -28,23 +48,23 @@ const Nav = () => {
     navigate('/main');
   }
 
-  
+
 
   return (
     <>
       <Navbar>
         <div>
-        <img src={logo} alt='OZ로고' height={'28px'} style={{cursor: 'pointer'}}
-        onClick={handleLogo}
-        />
-        <Input type='text' placeholder="영화를 검색해주세요." value={searchValue}
-        onChange={handleChange}/>
-        
-        <div>
-          <Signup onClick={handleRegister}
-          style={{marginRight:'8px'}}>회원가입</Signup>
-          <Login onClick={handleLogin} >로그인</Login>
-        </div>
+          <img src={logo} alt='OZ로고' height={'28px'} style={{ cursor: 'pointer' }}
+            onClick={handleLogo}
+          />
+          <Input type='text' placeholder="영화를 검색해주세요." value={searchValue}
+            onChange={handleChange} />
+
+          <div>
+            <Signup onClick={handleRegister}
+              style={{ marginRight: '8px' }}>회원가입</Signup>
+            <Login onClick={handleLogin} >로그인</Login>
+          </div>
         </div>
       </Navbar>
     </>

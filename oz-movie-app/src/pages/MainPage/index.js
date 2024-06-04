@@ -2,11 +2,11 @@ import React from 'react'
 import MovieCard from '../../components/MovieCard'
 import styled from 'styled-components'
 
-const MainPage = ({movies}) => {
+const MainPage = ({ movies }) => {
   return (
     <div>
       <Wrap>
-        <MovieCard movies={movies}/>
+        <MovieCard movies={movies} />
       </Wrap>
     </div>
   )
@@ -14,10 +14,12 @@ const MainPage = ({movies}) => {
 
 
 const Wrap = styled.div`
+  max-width: 2560px;
+  margin: 0 auto;
   display:flex;
   flex-wrap: wrap;
-  justify-content: center;
-  
+  justify-content: start;
+  padding:10px;
   gap:10px;
 `
 export default MainPage

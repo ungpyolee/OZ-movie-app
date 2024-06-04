@@ -66,9 +66,7 @@ const Genre = styled.p`
     padding : .25rem .5rem;
     border-radius : 8px;
     margin-bottom : 1rem;
-    &:first-child {
-        margin-right:4px;
-    }
+    margin-right:4px;
 `
 
 const Img = styled.img`
@@ -89,7 +87,6 @@ const MovieCardTitle = styled.p`
 const MovieCardAverage = styled.p`
 width:100%;
   font-size:1rem;
-  
   text-align:center;
   padding-bottom:.5rem;
   display:flex;

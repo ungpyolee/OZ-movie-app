@@ -9,12 +9,18 @@ import requests from '../api/request'
 const MovieCard = () => {
 
   const [movies, setMovies] = useState([]);
+
+  // const filterResults = (data) => {
+  //   const filterList = data.filter((item) => item.title !== null && item.title !== undefined && item.backdrop_path !== null);
+  //   return filterList;
+  // }
   const fetchMovieData = async () => {
     const response = await axios.get(requests.fetchTopRated);
+    // const filterData = filterResults(response.data.results)
+    // setMovies(filterData);
     setMovies(response.data.results);
   }
   useEffect(() => {
-
     fetchMovieData();
   }, [])
 
@@ -40,7 +46,7 @@ const MovieCardWrap = styled.div`
   display:flex;
   flex-wrap:wrap;
   justify-content:center;
-  width: calc(20% - 12px);
+  width: calc(20% - 8px);
   border: 1px solid #2F363D ;
   border-radius : 5px;
   box-sizing : border-box;
@@ -54,19 +60,20 @@ const MovieCardWrap = styled.div`
     border-color: rgba(249, 249, 249, 0.8);
   }
   @media screen and (max-width: 1200px) {
-    width: calc(33% - 13.3px);
+    width: calc(33% - 4.5px);
   }
   @media screen and (max-width: 768px) {
-    width: calc(50% - 15px);
+    width: calc(50% - 5px);
   }
   @media screen and (max-width: 420px) {
-    width: calc(100% - 20px);
+    width: calc(100%);
   }
   
 `
 
 const MovieImg = styled.img`
   width:100%;
+  
 `
 
 const MovieCardTitle = styled.p`
@@ -90,6 +97,8 @@ width:100%;
   
 `
 export const CardLink = styled(Link)`
+  all:unset;  
   text-decoration: none;
+  padding:0;
 `
 export default MovieCard

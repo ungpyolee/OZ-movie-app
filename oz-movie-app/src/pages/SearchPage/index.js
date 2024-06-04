@@ -1,76 +1,90 @@
 import React, { useEffect, useState } from 'react'
 import axios from '../../api/axios';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { useDebounce } from '../../hooks/useDebounce';
 import { FaStar } from "react-icons/fa";
 import styled from 'styled-components';
+import MovieCard from '../../components/MovieCard'
 
 const SearchPage = () => {
+  const navigate = useNavigate();
+  const [searchResults, setSearchResults] = useState([]);
 
-    const [searchResults, setSearchResults] = useState([]);
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  }
 
-    const useQuery = () => {
-        return new URLSearchParams(useLocation().search);
+
+  let query = useQuery();
+  const searchTerm = query.get('q');
+  const debouncedSearchTerm = useDebounce(query.get('q'), 700);
+
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      fetchSearchMovie(debouncedSearchTerm);
+    } else if (debouncedSearchTerm === '') {
+      navigate('/main');
     }
+  }, [debouncedSearchTerm])
 
-    let query = useQuery();
-    const searchTerm = query.get('q');
-    const debouncedSearchTerm = useDebounce(query.get('q'), 500);
-
-    useEffect(() => {
-        if (debouncedSearchTerm) {
-            fetchSearchMovie(debouncedSearchTerm);
-        }
-    }, [debouncedSearchTerm])
-
-    const fetchSearchMovie = async (searchTerm) => {
-        try {
-            const response = await axios.get(
-                `/search/multi?include_adult=false&query=${searchTerm}`
-            )
-            console.log(response);
-            setSearchResults(response.data.results);
-        } catch (error) {
-            console.error(error);
-        }
+  // const filterResults = (data) => {
+  //   const filterList = data.filter((item) => item.title !== null && item.title !== undefined && item.backdrop_path !== null);
+  //   return filterList;
+  // }
+  const fetchSearchMovie = async (searchTerm) => {
+    try {
+      const response = await axios.get(
+        `/search/multi?include_adult=false&query=${searchTerm}`
+      )
+      // const filterData = filterResults(response.data.results)
+      // setSearchResults(filterData);
+      setSearchResults(response.data.results);
+    } catch (error) {
+      console.error(error);
     }
+  }
 
-    if (searchResults.length > 0) {
-        return (
-            <>
-                <Wrap>
-                {searchResults.map((movie) => (
-                    <MovieCardWrap key={movie.id}>
-                        <CardLink to={`/${movie.id}`}>
-                            <MovieImg src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
-                                alt={`${movie.title} Poster`} />
+  if (searchResults.length > 0) {
+    return (
+      <>
+        <Wrap>
+          {searchResults.map((movie) => (
+            <MovieCardWrap key={movie.id}>
+              <CardLink to={`/${movie.id}`}>
+                <MovieImg src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
+                  alt={`${movie.title} Poster`} />
 
-                            <MovieCardTitle>{movie.title}</MovieCardTitle>
-                            <MovieCardAverage><FaStar style={{ marginRight: '.25rem' }} /> {movie.vote_average}</MovieCardAverage>
-                        </CardLink>
-                    </MovieCardWrap>
-                ))}
-                </Wrap>
-            </>
-        )
-    } else {
-        return (
-            <>
-                <p>
-                    찾고자하는 검색어 {searchTerm} 에 맞는 영화가 없습니다.
-                </p>
-            </>
-        )
-    }
+                <MovieCardTitle>{movie.title}</MovieCardTitle>
+                <MovieCardAverage><FaStar style={{ marginRight: '.25rem' }} /> {movie.vote_average}</MovieCardAverage>
+              </CardLink>
+            </MovieCardWrap>
+          ))}
+        </Wrap>
+      </>
+    )
+  } else {
+    return (
+      <>
+        <Wrap>
+          <p style={{ width: '100%', textAlign: 'center', margin: '1rem' }}>
+            찾고자하는 검색어 {searchTerm} 에 맞는 영화가 없습니다.
+          </p>
+          <MovieCard />
+        </Wrap>
+      </>
+    )
+  }
 }
 
 
 const Wrap = styled.div`
-  display:flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  
-  gap:10px;
+max-width: 2560px;
+margin: 0 auto;
+display:flex;
+flex-wrap: wrap;
+justify-content: start;
+padding:10px;
+gap:10px;
 `
 
 const MovieCardWrap = styled.div`
@@ -86,19 +100,20 @@ const MovieCardWrap = styled.div`
   transition:.2s ease-in-out;
   
   &:hover {
-      rgb(0 0 0 / 72%) 0px 30px 22px -10px;
-    transform: scale(1.02);
-    border-color: rgba(249, 249, 249, 0.8);
-  }
-  @media screen and (max-width: 1200px) {
-    width: calc(33% - 13.3px);
-  }
-  @media screen and (max-width: 768px) {
-    width: calc(50% - 15px);
-  }
-  @media screen and (max-width: 420px) {
-    width: calc(100% - 20px);
-  }
+    rgb(0 0 0 / 72%) 0px 30px 22px -10px;
+  transform: scale(1.02);
+  border-color: rgba(249, 249, 249, 0.8);
+}
+@media screen and (max-width: 1200px) {
+  width: calc(33% - 4.5px);
+}
+@media screen and (max-width: 768px) {
+  width: calc(50% - 5px);
+}
+@media screen and (max-width: 420px) {
+  width: calc(100%);
+}
+
 `
 
 const MovieImg = styled.img`
