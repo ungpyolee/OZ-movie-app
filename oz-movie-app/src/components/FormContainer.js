@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import React from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import logo from '../logo-b.png'
+import SocialLogin from './SocialLogin'
 
 const FormContainer = () => {
 
-    const [isSignUp, setIsSignUp] = useState(true)
+    const navigate = useNavigate()
   const {pathname} = useLocation()
-  
+  const handleSignup = () => {
+    navigate('/signup');
+  }
   
   switch (pathname) {
     case '/' :
@@ -20,6 +23,9 @@ const FormContainer = () => {
                 <Input required type='password' placeholder='Password'/>
                 <Button type='submit'>Login</Button>
                 </Form>
+                <p style={{textAlign:'center'}}>Don't have an account?</p>
+                <LinkText onClick={handleSignup}>Sign Up with your E-mail</LinkText>
+                <SocialLogin />
             </>
         )
         case '/signup' :
@@ -38,18 +44,19 @@ const FormContainer = () => {
         )
   }
 }
-const LinkText = styled.button`
-  all : unset;
-  font-size: 1.2rem;
-  color: #2997ff;
-  margin: .25rem 0;
-  cursor : pointer;
-`;
+const LinkText = styled.p`
+    text-align:center;
+    cursor: pointer;
+    color:#09DBBD;
+    margin-top:4px;
+    &:hover{
+        text-decoration-line : underline;
+    }
+`
 
 const Form = styled.form`
     width : 320px;
     margin : 3rem auto;
-    height : 600px;
     text-align :center;
     box-sizing : border-box;
 `
@@ -62,7 +69,7 @@ const Title = styled.p`
 
 const Input = styled.input`
     width : 100%;
-    height : 48px;
+    height:56px;
     margin-top : 1rem;
     padding : 1rem;
     border : 1px solid rgba(249, 249, 249, 0.2);
@@ -74,10 +81,10 @@ const Input = styled.input`
 const Button = styled.button`
     all:unset;
     cursor:pointer;
+    height:56px;
     width : 100%;
-    font-size : 1.25rem;
-    margin-top : 2rem;
-    padding : .825rem;
+    font-size : 1rem;
+    margin-top : 1rem;
     border : 1px solid #09DBBD;
     border-radius : 12px;
     box-sizing : border-box;
