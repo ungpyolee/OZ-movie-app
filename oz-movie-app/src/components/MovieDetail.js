@@ -8,11 +8,11 @@ const MovieDetail = () => {
 
     const { movieId } = useParams();
     const [movie, setMovie] = useState(null)
-    console.log(movieId)
 
     useEffect(() => {
         const fetchMovie = async () => {
             const response = await axios.get(`/movie/${movieId}`);
+            console.log(response);
             setMovie(response.data);
         };
 

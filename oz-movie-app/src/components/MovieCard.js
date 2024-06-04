@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import {  useEffect, useState } from 'react';
 import styled from 'styled-components'
 import { FaStar } from "react-icons/fa";
 import { Link } from 'react-router-dom' 
@@ -10,14 +10,13 @@ const MovieCard = () => {
 
   const [movies, setMovies] = useState([]);
 
-  const fetchMovieData = async () => {
-    const response = await axios.get(requests.fetchTopRated);
-    setMovies(response.data.results);
-  }
-
   useEffect(() => {
+    const fetchMovieData = async () => {
+      const response = await axios.get(requests.fetchTopRated);
+      setMovies(response.data.results);
+    }
     fetchMovieData();
-  }, [fetchMovieData])
+  }, [])
 
 
   return (
@@ -30,7 +29,6 @@ const MovieCard = () => {
 
             <MovieCardTitle>{movie.title}</MovieCardTitle>
             <MovieCardAverage><FaStar style={{marginRight:'.25rem'}}/> {movie.vote_average}</MovieCardAverage>
-
           </CardLink>
         </MovieCardWrap>
       ))}

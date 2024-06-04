@@ -1,12 +1,18 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
 import logo from '../logo.png'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 
 const Nav = () => {
 
   const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState('')
+  // search event
+  const handleChange = (e) => {
+    setSearchValue(e.target.value);
+    navigate(`/search?q=${e.target.value}`)
+  }
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -18,13 +24,22 @@ const Nav = () => {
     navigate('/signup');
   }
 
+  const handleLogo = (e) => {
+    navigate('/main');
+  }
+
+  
+
   return (
     <>
       <Navbar>
         <div>
         <img src={logo} alt='OZ로고' height={'28px'} style={{cursor: 'pointer'}}
-        onClick={() => (window.location.href = "/")}
+        onClick={handleLogo}
         />
+        <Input type='text' placeholder="영화를 검색해주세요." value={searchValue}
+        onChange={handleChange}/>
+        
         <div>
           <Login onClick={handleRegister}
           style={{marginRight:'8px'}}>회원가입</Login>
@@ -35,6 +50,22 @@ const Nav = () => {
     </>
   )
 }
+
+const Input = styled.input`
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 5px;
+  color: white;
+  padding: 8px;
+  border-radius : 16px;
+  border:1px solid rgba(200, 200, 200, 0.8);
+  transition : .2s ease-in-out;
+  &:hover {
+    border:1px solid #fff;
+  }
+`
 
 const Login = styled.a`
   all: unset;
@@ -53,7 +84,7 @@ const Login = styled.a`
 `
 
 const Navbar = styled.nav`
-  z-index:3;
+  z-index:2;
   position: fixed;
   top:0;
   left:0;
