@@ -14,7 +14,6 @@ const MainPage = ({movies}) => {
 
 
 const Wrap = styled.div`
-  min-width : 1320px;
   display:flex;
   flex-wrap: wrap;
   justify-content: center;

@@ -9,12 +9,12 @@ import requests from '../api/request'
 const MovieCard = () => {
 
   const [movies, setMovies] = useState([]);
-
+  const fetchMovieData = async () => {
+    const response = await axios.get(requests.fetchTopRated);
+    setMovies(response.data.results);
+  }
   useEffect(() => {
-    const fetchMovieData = async () => {
-      const response = await axios.get(requests.fetchTopRated);
-      setMovies(response.data.results);
-    }
+
     fetchMovieData();
   }, [])
 
@@ -52,6 +52,15 @@ const MovieCardWrap = styled.div`
       rgb(0 0 0 / 72%) 0px 30px 22px -10px;
     transform: scale(1.02);
     border-color: rgba(249, 249, 249, 0.8);
+  }
+  @media screen and (max-width: 1200px) {
+    width: calc(33% - 13.3px);
+  }
+  @media screen and (max-width: 768px) {
+    width: calc(50% - 15px);
+  }
+  @media screen and (max-width: 420px) {
+    width: calc(100% - 20px);
   }
   
 `

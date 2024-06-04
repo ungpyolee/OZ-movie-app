@@ -41,8 +41,8 @@ const Nav = () => {
         onChange={handleChange}/>
         
         <div>
-          <Login onClick={handleRegister}
-          style={{marginRight:'8px'}}>회원가입</Login>
+          <Signup onClick={handleRegister}
+          style={{marginRight:'8px'}}>회원가입</Signup>
           <Login onClick={handleLogin} >로그인</Login>
         </div>
         </div>
@@ -58,12 +58,34 @@ const Input = styled.input`
   background-color: rgba(0,0,0,0.5);
   border-radius: 5px;
   color: white;
-  padding: 8px;
+  padding: 9px;
   border-radius : 16px;
   border:1px solid rgba(200, 200, 200, 0.8);
   transition : .2s ease-in-out;
   &:hover {
     border:1px solid #fff;
+  }
+  @media screen and (max-width: 768px) {
+    left: 70px;
+    transform: translate(0, 0);
+  }
+`
+
+const Signup = styled.a`
+  all: unset;
+  cursor : pointer;
+  height: 100%;
+  color: rgba(200, 200, 200, 0.8);
+  border:1px solid rgba(200, 200, 200, 0.8);
+  border-radius : 16px;
+  padding : 0.375rem .875rem;
+  transition : .2s ease-in-out;
+  &:hover {
+    border:1px solid #fff;
+    color:#fff;
+  }
+  @media screen and (max-width: 440px) {
+    display:none;
   }
 `
 

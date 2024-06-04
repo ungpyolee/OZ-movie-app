@@ -2,51 +2,77 @@ import React, { useEffect, useState } from 'react'
 import axios from '../../api/axios';
 import { useLocation, Link } from 'react-router-dom';
 import { useDebounce } from '../../hooks/useDebounce';
+import { FaStar } from "react-icons/fa";
 import styled from 'styled-components';
 
 const SearchPage = () => {
 
-    const [searchResults, setSearchResults] = useState([])
+    const [searchResults, setSearchResults] = useState([]);
 
     const useQuery = () => {
         return new URLSearchParams(useLocation().search);
     }
 
     let query = useQuery();
-    const searchTerm = useDebounce(query.get('q'), 500);
-    
-    const fetchSearchData = async (search) => {
+    const searchTerm = query.get('q');
+    const debouncedSearchTerm = useDebounce(query.get('q'), 500);
+
+    useEffect(() => {
+        if (debouncedSearchTerm) {
+            fetchSearchMovie(debouncedSearchTerm);
+        }
+    }, [debouncedSearchTerm])
+
+    const fetchSearchMovie = async (searchTerm) => {
         try {
             const response = await axios.get(
-                `/search/multi?include_adult=false&query=${search}`
+                `/search/multi?include_adult=false&query=${searchTerm}`
             )
+            console.log(response);
             setSearchResults(response.data.results);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 
-    useEffect(() => {
-        if (searchTerm) {
-            fetchSearchData(searchTerm)
-        }
-    },[searchTerm])
-
-    
     if (searchResults.length > 0) {
         return (
             <>
-              
+                <Wrap>
+                {searchResults.map((movie) => (
+                    <MovieCardWrap key={movie.id}>
+                        <CardLink to={`/${movie.id}`}>
+                            <MovieImg src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
+                                alt={`${movie.title} Poster`} />
+
+                            <MovieCardTitle>{movie.title}</MovieCardTitle>
+                            <MovieCardAverage><FaStar style={{ marginRight: '.25rem' }} /> {movie.vote_average}</MovieCardAverage>
+                        </CardLink>
+                    </MovieCardWrap>
+                ))}
+                </Wrap>
             </>
         )
     } else {
         return (
             <>
-
+                <p>
+                    찾고자하는 검색어 {searchTerm} 에 맞는 영화가 없습니다.
+                </p>
             </>
         )
     }
 }
+
+
+const Wrap = styled.div`
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  
+  gap:10px;
+`
+
 const MovieCardWrap = styled.div`
   display:flex;
   flex-wrap:wrap;
@@ -64,7 +90,15 @@ const MovieCardWrap = styled.div`
     transform: scale(1.02);
     border-color: rgba(249, 249, 249, 0.8);
   }
-  
+  @media screen and (max-width: 1200px) {
+    width: calc(33% - 13.3px);
+  }
+  @media screen and (max-width: 768px) {
+    width: calc(50% - 15px);
+  }
+  @media screen and (max-width: 420px) {
+    width: calc(100% - 20px);
+  }
 `
 
 const MovieImg = styled.img`
