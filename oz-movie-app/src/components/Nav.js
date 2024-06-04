@@ -7,7 +7,6 @@ import { useLocation, useNavigate } from 'react-router-dom'
 const Nav = () => {
 
   const navigate = useNavigate();
-  const { pathname } = useLocation()
 
   const handleLogin = (e) => {
     e.preventDefault();

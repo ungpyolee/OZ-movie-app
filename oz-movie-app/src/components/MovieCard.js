@@ -10,10 +10,10 @@ const MovieCard = () => {
 
   const [movies, setMovies] = useState([]);
 
-  const fetchMovieData = useCallback(async () => {
+  const fetchMovieData = async () => {
     const response = await axios.get(requests.fetchTopRated);
     setMovies(response.data.results);
-  }, [])
+  }
 
   useEffect(() => {
     fetchMovieData();
