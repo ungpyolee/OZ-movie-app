@@ -6,7 +6,7 @@ import DetailPage from './pages/DetailPage'
 import LoginPage from './pages/LoginPage'
 import SearchPage from './pages/SearchPage'
 import movieList from './data/movieListData.json'
-import { useState, useEffect, useNavigate } from 'react'
+import { useState, useEffect } from 'react'
 import SignupPage from './pages/SignupPage';
 
 

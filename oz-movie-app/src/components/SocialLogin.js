@@ -1,32 +1,31 @@
 import React from 'react'
 import styled from 'styled-components'
 import logo from '../assets/google-logo-w.png'
-import { signOut } from "firebase/auth";
-import { auth } from "../firebase";
+import { AuthGoogle } from '../services/auth_google_popup';
+import useUserStore from '../userStore';
 
 const SocialLogin = () => {
 
-  
+  const { setUserData } = useUserStore();
 
-
-  // const handleLogout = () => {
-  //   signOut(auth).then(() => {
-  //     alert('로그아웃 되었습니다.')
-  //   }).catch((error) => {
-  //     alert('로그인 되어있지 않습니다.')
-  //   });
-
-  // }
-
+  const AuthGoogleHandler = async () => {
+    try {
+      const result = await AuthGoogle();
+      setUserData(result);
+      // console.log(result);
+    } catch (error) {
+      console.error("Google sign-in failed", error);
+    }
+  };
   return (
     <>
       <div>
-        <GoogleSignIn >
+        <GoogleSignIn onClick={AuthGoogleHandler}>
           <img src={logo} alt='google logo' />
           <p>Continue with Google</p>
         </GoogleSignIn>
-        {/* <p onClick={handleLogout}> logout</p> */}
-        <p> logout</p>
+        <p>
+        </p>
       </div>
     </>
 

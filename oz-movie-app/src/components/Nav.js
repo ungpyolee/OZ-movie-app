@@ -1,76 +1,128 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import logo from '../logo.png'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { app } from '../firebase'
-
+import { signOut } from "firebase/auth";
+import { auth } from '../firebase'
+import { AuthStateListener } from '../services/auth_state_listener';
+import useUserStore from '../userStore';
 
 const Nav = () => {
+  const { userData } = useUserStore();
   const navigate = useNavigate();
-  const [searchValue, setSearchValue] = useState('')
+  const [ searchValue, setSearchValue ] = useState('')
   const { pathname } = useLocation()
-
-  const auth = getAuth(app);
-
   
+  
+  AuthStateListener();
 
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (user && pathname === '/') {
-  //       navigate('/main')
-  //       // ...
-  //     } else if(!user) {
-  //       // User is signed out
-  //       // ...
-  //       navigate('/')
-  //     }
-  //   });
-  // }, [auth, navigate, pathname])
- 
+  const handleSignOut = () => {
+    signOut(auth).then(() => {
+      alert('로그아웃 되었습니다.')
+      navigate('/')
+    }).catch((error) => {
+      alert('로그인 되어있지 않습니다.')
+    });
+  }
+
   // search event
   const handleChange = (e) => {
     setSearchValue(e.target.value);
     navigate(`/search?q=${e.target.value}`)
   }
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    navigate('/');
-  }
-
-  const handleRegister = (e) => {
-    e.preventDefault();
-    navigate('/signup');
-  }
-
-  const handleLogo = (e) => {
-    navigate('/main');
-  }
+  const handleLogin = () => navigate('/');
+  const handleRegister = () => navigate('/signup');
+  const handleLogo = () => navigate('/main');
 
 
+
+  const renderAuthButtons = () => (
+    <>
+      <div>
+      <Signup onClick={handleRegister} style={{ marginRight: '8px' }}>회원가입</Signup>
+      <Login onClick={handleLogin}>로그인</Login>
+      </div>
+    </>
+  );
+
+  const renderSearchAndLogout = () => (
+    <>
+      <Input type='text' placeholder="영화를 검색해주세요." value={searchValue} onChange={handleChange} />
+      <div>
+      <UserInfo>
+        <UserImg src={userData.photoURL} alt={userData.displayName}></UserImg>
+      <DropDown>
+            <li onClick={handleSignOut}>
+              Sign Out
+            </li>
+            <li>
+              myPage
+            </li>
+          </DropDown>
+      </UserInfo>
+      </div>
+    </>
+  );
 
   return (
     <>
+      <AuthStateListener />
       <Navbar>
         <div>
-          <img src={logo} alt='OZ로고' height={'28px'} style={{ cursor: 'pointer' }}
-            onClick={handleLogo}
-          />
-          <Input type='text' placeholder="영화를 검색해주세요." value={searchValue}
-            onChange={handleChange} />
-
-          <div>
-            <Signup onClick={handleRegister}
-              style={{ marginRight: '8px' }}>회원가입</Signup>
-            <Login onClick={handleLogin} >로그인</Login>
-          </div>
+          <img src={logo} alt='로고' height='28px' style={{ cursor: 'pointer' }} onClick={handleLogo} />
+          {['/', '/signup'].includes(pathname) ? renderAuthButtons() : renderSearchAndLogout()}
         </div>
       </Navbar>
     </>
-  )
-}
+  );
+};
 
+export default Nav;
+
+const DropDown = styled.ul`
+  position:absolute;
+  right: 0;
+  top: 28px;
+  padding: 1rem 0;
+  width:120px;
+  border:1px solid #fff;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  box-sizing:border-box;
+  border-radius : 12px;
+  display:none;
+  > li {
+    box-sizing:border-box;
+    width:100%;
+    padding : .75rem 1rem;
+    cursor:pointer;
+    transition : .1s ease-in-out;
+    &:hover{
+      background-color :rgba(255, 255, 255, 0.2)
+    }
+  }
+  `
+  const UserImg = styled.img`
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+  `
+  const UserInfo = styled.div`
+  cursor:pointer;
+  width:32px;
+  height:32px;
+  border:1px solid #fff;
+  color : #fff;
+  border-radius :50%;
+  box-sizing : border-box;
+  position :relative;
+  &:hover {
+    ${DropDown} {
+      display:block;
+    }
+  }
+`
 const Input = styled.input`
   position: fixed;
   left: 50%;
@@ -89,62 +141,52 @@ const Input = styled.input`
     left: 70px;
     transform: translate(0, 0);
   }
-`
+`;
 
-const Signup = styled.a`
+const AuthButton = styled.a`
   all: unset;
-  cursor : pointer;
+  cursor: pointer;
   height: 100%;
   color: rgba(200, 200, 200, 0.8);
-  border:1px solid rgba(200, 200, 200, 0.8);
-  border-radius : 16px;
-  padding : 0.375rem .875rem;
-  transition : .2s ease-in-out;
+  border: 1px solid rgba(200, 200, 200, 0.8);
+  border-radius: 16px;
+  padding: 0.375rem 0.875rem;
+  transition: .2s ease-in-out;
   &:hover {
-    border:1px solid #fff;
-    color:#fff;
+    border: 1px solid #fff;
+    color: #fff;
   }
+`;
+
+const Signup = styled(AuthButton)`
   @media screen and (max-width: 440px) {
-    display:none;
+    display: none;
   }
-`
+`;
 
-const Login = styled.a`
-  all: unset;
-  cursor : pointer;
-  height: 100%;
-  color: rgba(200, 200, 200, 0.8);
-  border:1px solid rgba(200, 200, 200, 0.8);
-  border-radius : 16px;
-  padding : 0.375rem .875rem;
-  transition : .2s ease-in-out;
-  &:hover {
-    border:1px solid #fff;
-    color:#fff;
-  }
-
-`
+const Login = styled(AuthButton)``;
 
 const Navbar = styled.nav`
-  z-index:2;
-  position: fixed;
-  top:0;
-  left:0;
-  right:0;
-  height:58px;
-  background-color:rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  box-sizing : border-box;
- 
   
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 58px;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  box-sizing: border-box;
   > div {
-    display:flex;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 16px 10px;
-    height:100%;
-    box-sizing : border-box;
+    height: 100%;
+    box-sizing: border-box;
+    > div {
+      align-items: center;
+      display: flex;
+    }
   }
-`
-
-export default Nav
+`;

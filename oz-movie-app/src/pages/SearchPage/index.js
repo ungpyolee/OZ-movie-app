@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from '../../api/axios';
-import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { useDebounce } from '../../hooks/useDebounce';
 import { FaStar } from "react-icons/fa";
 import styled from 'styled-components';
 import MovieCard from '../../components/MovieCard'
 
 const SearchPage = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
 
   const useQuery = () => {
@@ -22,9 +22,7 @@ const SearchPage = () => {
   useEffect(() => {
     if (debouncedSearchTerm) {
       fetchSearchMovie(debouncedSearchTerm);
-    } else if (debouncedSearchTerm === '') {
-      navigate('/main');
-    }
+    } 
   }, [debouncedSearchTerm])
 
   // const filterResults = (data) => {
