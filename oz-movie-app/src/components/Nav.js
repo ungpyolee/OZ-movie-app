@@ -6,6 +6,7 @@ import { signOut } from "firebase/auth";
 import { auth } from '../firebase'
 import { AuthStateListener } from '../services/auth_state_listener';
 import useUserStore from '../userStore';
+import imgUserDefault from '../assets/icon-userDefault.png'
 
 const Nav = () => {
   const { userData } = useUserStore();
@@ -51,7 +52,7 @@ const Nav = () => {
       <Input type='text' placeholder="영화를 검색해주세요." value={searchValue} onChange={handleChange} />
       <div>
       <UserInfo>
-        <UserImg src={userData.photoURL} alt={userData.displayName}></UserImg>
+      <UserImg src={userData?.photoURL || imgUserDefault} alt={userData?.displayName || ''}></UserImg>
       <DropDown>
             <li onClick={handleSignOut}>
               Sign Out
