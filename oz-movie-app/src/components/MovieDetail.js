@@ -79,7 +79,7 @@ width:50%;
 display:block;
     @media screen and (max-width: 768px) {
     width: 100%;
-     margin-top : -100px;
+     margin-top : -20px;
   }
 `
 const MovieCardTitle = styled.p`
@@ -99,7 +99,7 @@ width:100%;
 const MovieDetailWrap = styled.div`
     overflow:hidden;
     max-width: 1340px;
-    margin : 1rem auto;
+    margin : 0 auto;
     border:1px soild black;
     box-sizing:border-box;
     display: flex;
