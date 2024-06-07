@@ -2,16 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import logo from '../assets/google-logo-w.png'
 import { AuthGoogle } from '../services/auth_google_popup';
-import useUserStore from '../userStore';
 
 const SocialLogin = () => {
 
-  const { setUserData } = useUserStore();
 
   const AuthGoogleHandler = async () => {
     try {
       const result = await AuthGoogle();
-      setUserData(result);
+      
       // console.log(result);
     } catch (error) {
       console.error("Google sign-in failed", error);

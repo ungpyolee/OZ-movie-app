@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import logo from '../logo.png'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -9,12 +9,20 @@ import useUserStore from '../userStore';
 import imgUserDefault from '../assets/icon-userDefault.png'
 
 const Nav = () => {
-  const { userData } = useUserStore();
+  const { initialUserData, setUserData } = useUserStore();
+  
   const navigate = useNavigate();
   const [ searchValue, setSearchValue ] = useState('')
   const { pathname } = useLocation()
   
+  useEffect(() => {
+    if(auth){
+      setUserData(auth.currentUser);
+
+    }
+  }, [setUserData, initialUserData])
   
+
   AuthStateListener();
 
   const handleSignOut = () => {
@@ -52,7 +60,7 @@ const Nav = () => {
       <Input type='text' placeholder="영화를 검색해주세요." value={searchValue} onChange={handleChange} />
       <div>
       <UserInfo>
-      <UserImg src={userData?.photoURL || imgUserDefault} alt={userData?.displayName || ''}></UserImg>
+      <UserImg src={initialUserData?.photoURL || imgUserDefault} alt={initialUserData?.displayName || ''}></UserImg>
       <DropDown>
             <li onClick={handleSignOut}>
               Sign Out

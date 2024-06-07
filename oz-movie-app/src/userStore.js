@@ -2,12 +2,11 @@ import {create} from 'zustand';
 
 const useUserStore = create((set) => ({
 
-    userData : null,
+    initialUserData : null,
     setUserData : (data) => {
         localStorage.setItem('userData', JSON.stringify(data));
-        set({userData : data})
+        set({initialUserData : data})
     }
-
 }))
 
 export default useUserStore;
