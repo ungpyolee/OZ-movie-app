@@ -19,7 +19,7 @@ const Layout = () => {
 
 const Container = styled.div`
     padding : 74px 0 0 0;
-    min-height:100vh;
+    min-height:130vh;
     background-color : #000012;
     color:#fff;
     box-sizing:border-box;

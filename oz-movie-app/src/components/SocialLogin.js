@@ -31,6 +31,7 @@ const SocialLogin = () => {
 }
 
 const GoogleSignIn = styled.button`
+    all:unset;
     color:#fff;
     font-size :1rem;
     cursor:pointer;
