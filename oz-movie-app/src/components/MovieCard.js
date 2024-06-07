@@ -84,7 +84,6 @@ const MovieImg = styled.img`
 const MovieCardTitle = styled.p`
   width:100%;
   font-size:1.25rem;
-  font-weight:700;
   text-align:center;
   padding-top:.5rem;
   padding-bottom:.25rem;
@@ -94,6 +93,7 @@ const MovieCardTitle = styled.p`
 const MovieCardAverage = styled.p`
 width:100%;
   font-size:1rem;
+  font-weight:b700;
   text-align:center;
   padding-bottom:.5rem;
   display:flex;

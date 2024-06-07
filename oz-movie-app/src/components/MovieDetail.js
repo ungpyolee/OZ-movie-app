@@ -20,22 +20,22 @@ const MovieDetail = () => {
     }, [movieId]);
 
 
-   
+
 
     return (
         <>
             {movie ? (
-                <MovieDetailWrap style={{color:'#fff'}}>
+                <MovieDetailWrap style={{ color: '#fff' }}>
                     <Img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
-                    <WrapContent style={{padding:'1rem'}}>
-                    <MovieCardTitle>{movie.title}</MovieCardTitle>
-                    <MovieCardAverage><FaStar style={{marginRight:'.25rem'}}/> {movie.vote_average}</MovieCardAverage>
-                    <WrapGenres>
+                    <WrapContent style={{ padding: '1rem' }}>
+                        <MovieCardTitle>{movie.title}</MovieCardTitle>
+                        <MovieCardAverage><FaStar style={{ marginRight: '.25rem' }} /> {movie.vote_average}</MovieCardAverage>
+                        <WrapGenres>
                             {movie.genres.map((genre) => (
                                 <Genre key={genre.id}>{genre.name}</Genre>
                             ))}
                         </WrapGenres>
-                    <Overview>{movie.overview}</Overview>
+                        <Overview>{movie.overview}</Overview>
                     </WrapContent>
                 </MovieDetailWrap>
             ) : (
@@ -57,7 +57,8 @@ const WrapContent = styled.div`
       }
 `
 const Overview = styled.p`
-    line-height: 1.5rem;
+    line-height: 2rem;
+    font-size:1.15rem;
 `
 const WrapGenres = styled.div`
  display:flex;
@@ -69,7 +70,8 @@ const Genre = styled.p`
     padding : .25rem .5rem;
     border-radius : 8px;
     margin-bottom : 1rem;
-    margin-right:4px;
+    margin-right:8px;
+    font-weight:700;
 `
 
 const Img = styled.img`
@@ -82,21 +84,20 @@ display:block;
 `
 const MovieCardTitle = styled.p`
   width:100%;
-  font-size:1.5rem;
-  font-weight:700;
-  padding-top:.5rem;
+  font-size:1.75rem;
+  font-weight:600;
   padding-bottom:.25rem;
   margin-bottom: 1.5rem;
 `
 const MovieCardAverage = styled.p`
 width:100%;
-  font-size:1rem;
+  font-size:1.2rem;
   text-align:center;
   padding-bottom:.5rem;
   display:flex;
 `
 const MovieDetailWrap = styled.div`
-    
+    overflow:hidden;
     max-width: 1340px;
     margin : 1rem auto;
     border:1px soild black;
