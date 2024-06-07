@@ -20,24 +20,3 @@ const AuthGoogle = async () => {
   export { AuthGoogle };
 
 
-// const AuthGoogle = () => {
-
-//     signInWithPopup(auth, provider)
-//       .then((result) => {
-//         // const credential = GoogleAuthProvider.credentialFromResult(result);
-//         // const token = credential.accessToken;
-//         const user = result.user;
-//         // console.log("User signed in: ", user);
-//         // localStorage.setItem('userData', JSON.stringify(result.user));
-//         console.log(user);
-//         return user;
-//       }).catch((error) => {
-//         const errorCode = error.code;
-//         const errorMessage = error.message;
-//         const email = error.customData.email;
-//         const credential = GoogleAuthProvider.credentialFromError(error);
-//         console.error("Error during sign-in: ", errorCode, errorMessage, email, credential);
-//       });
-//   };
-
-// export { AuthGoogle };

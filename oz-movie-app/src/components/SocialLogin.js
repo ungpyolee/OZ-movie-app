@@ -10,7 +10,7 @@ const SocialLogin = () => {
     try {
       const result = await AuthGoogle();
       
-      // console.log(result);
+      console.log(result);
     } catch (error) {
       console.error("Google sign-in failed", error);
     }

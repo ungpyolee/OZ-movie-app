@@ -51,6 +51,9 @@ const WrapContent = styled.div`
     box-sizing : border-box;
     @media screen and (max-width: 768px) {
         width: 100%;
+        margin-top : -100px;
+        background-color:#000012;
+        border-radius : 12px 12px 0 0;
       }
 `
 const Overview = styled.p`
@@ -74,6 +77,7 @@ width:50%;
 display:block;
     @media screen and (max-width: 768px) {
     width: 100%;
+     margin-top : -100px;
   }
 `
 const MovieCardTitle = styled.p`
@@ -92,6 +96,9 @@ width:100%;
   display:flex;
 `
 const MovieDetailWrap = styled.div`
+    
+    max-width: 1340px;
+    margin : 1rem auto;
     border:1px soild black;
     box-sizing:border-box;
     display: flex;

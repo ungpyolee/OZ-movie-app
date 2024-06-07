@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import axios from '../../api/axios';
 import { useLocation, Link } from 'react-router-dom';
 import { useDebounce } from '../../hooks/useDebounce';
@@ -19,28 +19,32 @@ const SearchPage = () => {
   const searchTerm = query.get('q');
   const debouncedSearchTerm = useDebounce(query.get('q'), 700);
 
+  const filterResults = (data) => {
+    return data.filter((item) => item.title && item.backdrop_path);
+  }
+  
+  const fetchSearchMovie = useCallback(async (searchTerm) => {
+    try {
+      const response = await axios.get(
+        `/search/multi?include_adult=false&query=${searchTerm}`
+      );
+      const filterData = filterResults(response.data.results);
+      setSearchResults(filterData);
+    } catch (error) {
+      console.error('Failed to fetch search results:', error);
+    }
+  }, []);
+
+
   useEffect(() => {
     if (debouncedSearchTerm) {
       fetchSearchMovie(debouncedSearchTerm);
     } 
-  }, [debouncedSearchTerm])
+  }, [debouncedSearchTerm,fetchSearchMovie])
 
-  // const filterResults = (data) => {
-  //   const filterList = data.filter((item) => item.title !== null && item.title !== undefined && item.backdrop_path !== null);
-  //   return filterList;
-  // }
-  const fetchSearchMovie = async (searchTerm) => {
-    try {
-      const response = await axios.get(
-        `/search/multi?include_adult=false&query=${searchTerm}`
-      )
-      // const filterData = filterResults(response.data.results)
-      // setSearchResults(filterData);
-      setSearchResults(response.data.results);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+
+
+
 
   if (searchResults.length > 0) {
     return (

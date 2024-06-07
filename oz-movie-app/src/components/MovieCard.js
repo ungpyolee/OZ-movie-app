@@ -1,28 +1,31 @@
-import {  useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components'
 import { FaStar } from "react-icons/fa";
-import { Link } from 'react-router-dom' 
+import { Link } from 'react-router-dom'
 import axios from '../api/axios';
 import requests from '../api/request'
-
 
 const MovieCard = () => {
 
   const [movies, setMovies] = useState([]);
 
-  // const filterResults = (data) => {
-  //   const filterList = data.filter((item) => item.title !== null && item.title !== undefined && item.backdrop_path !== null);
-  //   return filterList;
-  // }
-  const fetchMovieData = async () => {
-    const response = await axios.get(requests.fetchTopRated);
-    // const filterData = filterResults(response.data.results)
-    // setMovies(filterData);
-    setMovies(response.data.results);
+  const filterResults = (data) => {
+    return data.filter((item) => item.title && item.backdrop_path);
   }
+
+  const fetchMovieData = useCallback(async () => {
+    try {
+      const response = await axios.get(requests.fetchTopRated);
+      const filterData = filterResults(response.data.results);
+      setMovies(filterData);
+    } catch (error) {
+      console.error("Failed to fetch movies:", error);
+    }
+  }, []);
+
   useEffect(() => {
     fetchMovieData();
-  }, [])
+  }, [fetchMovieData]);
 
 
   return (
@@ -34,7 +37,9 @@ const MovieCard = () => {
               alt={`${movie.title} Poster`} />
 
             <MovieCardTitle>{movie.title}</MovieCardTitle>
-            <MovieCardAverage><FaStar style={{marginRight:'.25rem'}}/> {movie.vote_average}</MovieCardAverage>
+            <MovieCardAverage>
+              <FaStar style={{ marginRight: '.25rem' }} /> 
+              {movie.vote_average}</MovieCardAverage>
           </CardLink>
         </MovieCardWrap>
       ))}
