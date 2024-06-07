@@ -16,7 +16,9 @@ const FormContainer = () => {
     const { pathname } = useLocation();
 
     const handleSignUp = async () => {
-        if (!email.includes('@')) {
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
             return alert('유효한 이메일 주소를 입력하세요.');
         }
         if (password.trim().length < 6) {
